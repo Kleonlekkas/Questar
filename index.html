@@ -1,0 +1,142 @@
+<style>
+    .HideElement {
+      width: 0px;
+      height: 0px !important;
+      visibility: hidden;
+      display: none !important;
+    }
+    
+    .CenterButtonText {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+    
+    @media all and (min-width: 480px) and (max-width: 778px) 	{
+      #AllTabs {
+        margin-top: 22em !important;
+      }
+    }
+  </style>
+  
+  
+  
+      <script>
+      
+      (async function() {
+            await fullTopicScript();
+      })();
+      
+  
+      
+      function fullTopicScript() {
+        
+        
+          //WordPress Script
+          //Set up and Globals
+              var buttons;
+              var tabs;
+              let activeTab = "BOCES";
+              let oldTab = null;
+              let tabArr = ["BOCES", "Office / Planning / Budget", "State Aid", "Other"];
+        
+              AssignEventListenersToButtons();
+              HideInactiveTabs();
+        
+             //Handle button press event,
+             //Hides the inactive tabs
+             function buttonPressed(passedVal) {
+                oldTab = activeTab; //current active tab becomes old tab
+                activeTab = passedVal; //update current tab to actual current tab
+                HideInactiveTabs();
+                SetActiveTab(oldTab);
+              }
+      
+              //After hiding the inactive tabs, we still need to make the active tab's content visible
+              //tabArr indices correspond with the tab classes et_pb_tab_X where x = index + 5. i.e. 5-9
+              function SetActiveTab(previousTab) {
+                
+                //If the tab is already active, skip the process
+                if (activeTab == previousTab) {
+                  return;
+                }
+                
+                var indexOfLastTab;
+                var indexOfCurrentTab;
+                var length = tabArr.length;
+                
+                //Find indices of the previous and active tabs
+                for (var n = 0; n < length; n++) {
+                  if (tabArr[n] == previousTab) {
+                    indexOfLastTab = n;
+                  } else if (tabArr[n] == activeTab) {
+                    indexOfCurrentTab = n;
+                  }
+                } //end for
+  
+                
+                
+                    var tabContent = document.getElementById("AllTabs");
+                tabContent = tabContent.getElementsByClassName("et_pb_all_tabs")[0];
+                
+                //From here we have access to the et_pb_tab_'s, but bevause Divi elements are generated, the numbers are
+                //inconsistent. Have to check if its et_pb_tab_0-4 or et_pb_tab_5-9
+                var offset = 0;
+                var tabClassTest = tabContent.getElementsByClassName("et_pb_tab")[0];
+                
+  
+                if (tabClassTest.classList.contains("et_pb_tab_4")) {
+                  offset = 4;
+                }
+  
+                
+                var tabClassStringCurrent = 'et_pb_tab_' + (indexOfCurrentTab + offset).toString();
+                var tabClassStringLast = 'et_pb_tab_' + (indexOfLastTab + offset).toString();
+                
+                          tabContent.getElementsByClassName(tabClassStringCurrent)[0].style['display']="block";
+                        tabContent.getElementsByClassName(tabClassStringCurrent)[0].style['opacity']="1";             
+                tabContent.getElementsByClassName(tabClassStringLast)[0].style['display']="none";
+                        tabContent.getElementsByClassName(tabClassStringLast)[0].style['opacity']="0";   
+              }
+                  
+        
+                    //Assigns Event listeners to buttons for onclick event
+              function AssignEventListenersToButtons() {
+                  buttons = document.getElementsByClassName('TopicButton');
+      
+                  var length = buttons.length;
+      
+                  for (var i = 0; i < length; i++) {
+                      let textToPass = buttons[i].innerHTML;
+                      buttons[i].addEventListener("click", function() {buttonPressed(textToPass);} );
+                    
+                    //need to do some special CSS for our "Office / Planning / Budget" button to center the text
+                  if (buttons[i].innerHTML == "Office / Planning / Budget") {
+                    buttons[i].classList.add('CenterButtonText');
+                  }
+                    
+                  }
+              }
+        
+        
+                    function HideInactiveTabs() {
+                var tabsModule = document.getElementById('AllTabs');
+                var tabUL = tabsModule.querySelector('ul');
+                tabs = tabUL.querySelectorAll('li');
+                var tabLength = tabs.length;
+                
+                console.log("HIDE INACTIVE TABS PLEASE THANKS");
+                
+                for (var x = 0; x < tabLength; x++) {
+  
+                  //Need the OR check because some browsers will need us to escape the quotes aurrounding the #
+                  if (tabs[x].innerHTML == '<a href="#">' + activeTab + '</a>' || tabs[x].innerHTML == "<a href=\"#\">" + activeTab + "</a>") {
+                    tabs[x].classList.remove('HideElement');
+                    tabs[x].style['background-color']='#fff';
+                  }  else {
+                    tabs[x].classList.add('HideElement');
+                  }
+                } // end for
+              }
+      }
+      </script>
