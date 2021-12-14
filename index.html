@@ -76,7 +76,7 @@
   
                 
                 
-                    var tabContent = document.getElementById("AllTabs");
+                var tabContent = document.getElementById("AllTabs");
                 tabContent = tabContent.getElementsByClassName("et_pb_all_tabs")[0];
                 
                 //From here we have access to the et_pb_tab_'s, but bevause Divi elements are generated, the numbers are
@@ -93,14 +93,14 @@
                 var tabClassStringCurrent = 'et_pb_tab_' + (indexOfCurrentTab + offset).toString();
                 var tabClassStringLast = 'et_pb_tab_' + (indexOfLastTab + offset).toString();
                 
-                          tabContent.getElementsByClassName(tabClassStringCurrent)[0].style['display']="block";
-                        tabContent.getElementsByClassName(tabClassStringCurrent)[0].style['opacity']="1";             
+                tabContent.getElementsByClassName(tabClassStringCurrent)[0].style['display']="block";
+                tabContent.getElementsByClassName(tabClassStringCurrent)[0].style['opacity']="1";             
                 tabContent.getElementsByClassName(tabClassStringLast)[0].style['display']="none";
-                        tabContent.getElementsByClassName(tabClassStringLast)[0].style['opacity']="0";   
+                tabContent.getElementsByClassName(tabClassStringLast)[0].style['opacity']="0";   
               }
                   
         
-                    //Assigns Event listeners to buttons for onclick event
+              //Assigns Event listeners to buttons for onclick event
               function AssignEventListenersToButtons() {
                   buttons = document.getElementsByClassName('TopicButton');
       
@@ -119,24 +119,23 @@
               }
         
         
-                    function HideInactiveTabs() {
-                var tabsModule = document.getElementById('AllTabs');
-                var tabUL = tabsModule.querySelector('ul');
-                tabs = tabUL.querySelectorAll('li');
-                var tabLength = tabs.length;
+                function HideInactiveTabs() {
+                    var tabsModule = document.getElementById('AllTabs');
+                    var tabUL = tabsModule.querySelector('ul');
+                    tabs = tabUL.querySelectorAll('li');
+                    var tabLength = tabs.length;
                 
-                console.log("HIDE INACTIVE TABS PLEASE THANKS");
                 
-                for (var x = 0; x < tabLength; x++) {
+                    for (var x = 0; x < tabLength; x++) {
   
-                  //Need the OR check because some browsers will need us to escape the quotes aurrounding the #
-                  if (tabs[x].innerHTML == '<a href="#">' + activeTab + '</a>' || tabs[x].innerHTML == "<a href=\"#\">" + activeTab + "</a>") {
-                    tabs[x].classList.remove('HideElement');
-                    tabs[x].style['background-color']='#fff';
-                  }  else {
-                    tabs[x].classList.add('HideElement');
-                  }
-                } // end for
-              }
+                        //Need the OR check because some browsers will need us to escape the quotes aurrounding the #
+                         if (tabs[x].innerHTML == '<a href="#">' + activeTab + '</a>' || tabs[x].innerHTML == "<a href=\"#\">" + activeTab + "</a>") {
+                          tabs[x].classList.remove('HideElement');
+                          tabs[x].style['background-color']='#fff';
+                         }  else {
+                          tabs[x].classList.add('HideElement');
+                         }
+                    } // end for
+                }
       }
       </script>
